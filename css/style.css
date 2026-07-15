@@ -596,13 +596,13 @@ button { cursor: pointer; }
 
 .hero-track {
   display: flex;
-  width: 300%; /* 3 slides */
+  width: 400%; /* 4 slides */
   height: 100%;
   transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1);
 }
 
 .hero-slide {
-  flex: 0 0 33.3333%;
+  flex: 0 0 25%;
   position: relative;
   display: flex;
   align-items: center;
@@ -623,6 +623,28 @@ button { cursor: pointer; }
 
 .hero-slide.active .hero-bg {
   transform: scale(1.05);
+}
+
+/* Image-only slide (slide 4) — uses <img> instead of background-image */
+.hero-slide-image-only {
+  background: #1a1a0f;
+}
+
+.hero-slide-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  z-index: 0;
+}
+
+@media (max-width: 768px) {
+  .hero-slide-img {
+    object-fit: contain;
+    object-position: center center;
+  }
 }
 
 /* Dark gradient overlay */
