@@ -597,5 +597,60 @@ document.addEventListener("DOMContentLoaded", () => {
   //   };
   // }
 
+  /* ==========================================================
+     15. CONTACT FORM → WHATSAPP SUBMISSION
+  ========================================================== */
+
+  if (contactForm) {
+    contactForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      // Collect form values
+      const name    = (document.getElementById("name")?.value || "").trim();
+      const phone   = (document.getElementById("phone")?.value || "").trim();
+      const email   = (document.getElementById("email")?.value || "").trim();
+      const message = (document.getElementById("message")?.value || "").trim();
+
+      // Validate required fields
+      if (!name || !phone || !email) {
+        alert("Please fill in all required fields (Name, Phone, Email).");
+        return;
+      }
+
+      // Build WhatsApp message
+      const whatsappNumber = "919676858534"; // Replace with your actual WhatsApp number
+      let waMessage = `🏡 *New Enquiry — Jana Harsha Plots*\n\n`;
+      waMessage += `👤 *Name:* ${name}\n`;
+      waMessage += `📞 *Phone:* ${phone}\n`;
+      waMessage += `📧 *Email:* ${email}\n`;
+      if (message) {
+        waMessage += `📝 *Requirement:* ${message}\n`;
+      }
+      waMessage += `\n🕐 *Submitted:* ${new Date().toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" })}`;
+
+      // Encode and open WhatsApp
+      const encodedMessage = encodeURIComponent(waMessage);
+      const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+
+      window.open(whatsappURL, "_blank");
+
+      // Show success feedback on button
+      const submitBtn = contactForm.querySelector(".btn-submit");
+      if (submitBtn) {
+        const originalHTML = submitBtn.innerHTML;
+        submitBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Sent to WhatsApp!`;
+        submitBtn.style.background = "#25D366";
+        submitBtn.disabled = true;
+
+        setTimeout(() => {
+          submitBtn.innerHTML = originalHTML;
+          submitBtn.style.background = "";
+          submitBtn.disabled = false;
+          contactForm.reset();
+        }, 3000);
+      }
+    });
+  }
+
   console.log("Jana Harsha Plots — script loaded ✓");
 });
