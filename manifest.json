@@ -1,0 +1,21 @@
+{
+  "name": "Jana Harsha Plots — Premium Residential Venture Plots",
+  "short_name": "Jana Harsha Plots",
+  "description": "DTCP & RERA Approved residential venture plots with 100% clear title documentation.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#654321",
+  "icons": [
+    {
+      "src": "images/Logo-image.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "images/Logo-image.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
