@@ -365,12 +365,15 @@ document.addEventListener("DOMContentLoaded", () => {
       faqItems.forEach((other) => {
         if (other === item) return;
         other.classList.remove("active");
+        const otherQuestion = other.querySelector(".faq-question");
+        if (otherQuestion) otherQuestion.setAttribute('aria-expanded', 'false');
         const otherAnswer = other.querySelector(".faq-answer");
         if (otherAnswer) otherAnswer.style.maxHeight = null;
       });
 
       // Toggle current item
       item.classList.toggle("active");
+      question.setAttribute('aria-expanded', item.classList.contains('active'));
       if (!isActive) {
         answer.style.maxHeight = answer.scrollHeight + "px";
       } else {
@@ -404,55 +407,7 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ==========================================================
      9. CONTACT FORM HANDLING
   ========================================================== */
-  if (contactForm) {
-    contactForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-
-      const name  = contactForm.querySelector('[name="name"]');
-      const phone = contactForm.querySelector('[name="phone"]');
-      const email = contactForm.querySelector('[name="email"]');
-
-      // Basic validation
-      let valid = true;
-      [name, phone, email].forEach((field) => {
-        if (field && !field.value.trim()) {
-          field.classList.add("error");
-          valid = false;
-        } else if (field) {
-          field.classList.remove("error");
-        }
-      });
-
-      // Email format check
-      if (email && email.value.trim()) {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email.value.trim())) {
-          email.classList.add("error");
-          valid = false;
-        }
-      }
-
-      // Phone format check (basic — at least 10 digits)
-      if (phone && phone.value.trim()) {
-        const digits = phone.value.replace(/\D/g, "");
-        if (digits.length < 10) {
-          phone.classList.add("error");
-          valid = false;
-        }
-      }
-
-      if (!valid) {
-        alert("Please fill in all required fields correctly.");
-        return;
-      }
-
-      // Success (no backend)
-      alert(
-        "Thank you for your interest in Jana Harsha Plots! We will get back to you shortly."
-      );
-      contactForm.reset();
-    });
-  }
+  /* Contact form handler moved to section 15 (WhatsApp submission) */
 
   /* ==========================================================
      10. COUNTER ANIMATION
@@ -473,12 +428,12 @@ document.addEventListener("DOMContentLoaded", () => {
       const ease     = 1 - Math.pow(1 - progress, 3);
       const current  = Math.floor(ease * target);
 
-      el.textContent = current.toLocaleString() + "+";
+      el.textContent = current.toLocaleString();
 
       if (progress < 1) {
         requestAnimationFrame(step);
       } else {
-        el.textContent = target.toLocaleString() + "+";
+        el.textContent = target.toLocaleString();
       }
     }
 
@@ -526,13 +481,8 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ==========================================================
      12. IMAGE LAZY LOADING ENHANCEMENT
   ========================================================== */
-  document.querySelectorAll("img").forEach((img) => {
-    // Add native lazy loading if not already set
-    if (!img.getAttribute("loading")) {
-      img.setAttribute("loading", "lazy");
-    }
-
-    // Fade-in effect when the image finishes loading
+  document.querySelectorAll("img[loading='lazy']").forEach((img) => {
+    // Fade-in effect only for lazy-loaded images
     img.style.opacity = "0";
     img.style.transition = "opacity 0.5s ease";
 
@@ -544,7 +494,6 @@ document.addEventListener("DOMContentLoaded", () => {
       reveal();
     } else {
       img.addEventListener("load", reveal);
-      // Fallback — ensure visibility even if load event never fires
       img.addEventListener("error", reveal);
     }
   });
